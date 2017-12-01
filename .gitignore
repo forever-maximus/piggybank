@@ -1,3 +1,4 @@
 piglet/database_settings.py
 piglet/__pycache__/*
 entries/migrations/__pycache__/*
+front-end/src/font-awesome-4.7.0/
