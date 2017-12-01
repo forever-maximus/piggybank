@@ -21,5 +21,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #F2F2F2;
+}
+
+.login-icon {
+    margin-right: 15px;
 }

@@ -23,6 +23,7 @@ class EntryViewSet(viewsets.ModelViewSet):
     #     return Response(serializer_class.data)
 
     def perform_create(self, serializer):
+        """Sets the user profile to the logged in user."""
         serializer.save(owner=self.request.user)
 
 

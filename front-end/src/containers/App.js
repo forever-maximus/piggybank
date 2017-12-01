@@ -9,10 +9,10 @@ injectTapEventPlugin();
 
 
 // Not entirely sure how spread operator works - look into later!
-const PrivateRoute = ({ component: Component, authToken: token, ...rest }) => (
+const PrivateRoute = ({ component: Component, authToken: token, resetLoginToken: resetMethod, ...rest }) => (
   <Route {...rest} render={(props) => (
     token !== ''
-      ? <Component {...props} authToken={token} />
+      ? <Component {...props} authToken={token} resetLoginToken={resetMethod} />
       : <Redirect to='/login' />
   )} />
 );
@@ -24,6 +24,14 @@ class App extends Component {
     this.state = {
       loginToken: 'unchecked',
     };
+  }
+
+  resetLoginToken = () => {
+    this.setState({loginToken: ''});
+  }
+
+  setLoginToken = (token) => {
+    this.setState({loginToken: token});
   }
 
   componentDidMount() {
@@ -41,8 +49,9 @@ class App extends Component {
       this.state.loginToken === 'unchecked'
       ? <div>Checking</div>
       : <div style={containerStyle}>
-        <Route path='/login' component={LoginPage} />
-        <PrivateRoute exact path='/' component={DashboardPage} authToken={this.state.loginToken} />
+        <Route path='/login' render={()=><LoginPage setLoginToken={this.setLoginToken}/>} />
+        <PrivateRoute exact path='/' component={DashboardPage} authToken={this.state.loginToken} 
+          resetLoginToken={this.resetLoginToken} />
       </div>
     );
   }

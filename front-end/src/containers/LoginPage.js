@@ -20,6 +20,7 @@ class LoginPage extends Component {
       password: this.state.password
     }).then(responseData => {
       setLogin(responseData.token);
+      this.props.setLoginToken(responseData.token);
       this.setState({doRedirect: true});
     }).catch(errorData => {
       console.log('Error - Invalid login details!');

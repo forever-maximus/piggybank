@@ -1,13 +1,13 @@
 from django.db import models
 
 class Entry(models.Model):
-    ONE_OFF = 0
-    WEEKLY = 1
-    FORTNIGHTLY = 2
-    MONTHLY = 3
-    QUARTERLY = 4
-    HALF_YEARLY = 5
-    YEARLY = 6
+    ONE_OFF = 'One-Off'
+    WEEKLY = 'Weekly'
+    FORTNIGHTLY = 'Fortnightly'
+    MONTHLY = 'Monthly'
+    QUARTERLY = 'Quarterly'
+    HALF_YEARLY = 'Half-Yearly'
+    YEARLY = 'Yearly'
     frequency_choices = (
         (ONE_OFF, 'One-Off'),
         (WEEKLY, 'Weekly'),
@@ -22,7 +22,7 @@ class Entry(models.Model):
     amount = models.DecimalField(max_digits=11, decimal_places=2)
     start_date = models.DateField('start date')
     end_date = models.DateField('end date', null=True, blank=True)
-    frequency = models.SmallIntegerField(choices=frequency_choices)
+    frequency = models.CharField(choices=frequency_choices, max_length=20)
     owner = models.ForeignKey('auth.User', related_name='entries', on_delete=models.CASCADE)
 
     def __str__(self):

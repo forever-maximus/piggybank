@@ -1,0 +1,3 @@
+piglet/database_settings.py
+piglet/__pycache__/*
+entries/migrations/__pycache__/*
