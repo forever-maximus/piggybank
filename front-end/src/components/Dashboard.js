@@ -10,7 +10,8 @@ class Dashboard extends Component {
       addItemDialogOpen: false,
       addItemName: '',
       addItemAmount: '',
-      addItemFrequency: 'Frequency',
+      addItemFrequency: '',
+      addItemType: '',
       addItemStartDate: '',
       addItemEndDate: '',
       selectedCashflows: [],
@@ -22,7 +23,7 @@ class Dashboard extends Component {
   };
 
   handleClose = () => {
-    this.setState({addItemDialogOpen: false});
+    this.setState({addItemDialogOpen: false, addItemFrequency: '', addItemType: ''});
   };
 
   handleSave = () => {
@@ -31,6 +32,7 @@ class Dashboard extends Component {
       name: this.state.addItemName,
       amount: this.state.addItemAmount,
       frequency: this.state.addItemFrequency,
+      cashflow_type: this.state.addItemType,
       start_date: this.state.addItemStartDate,
       end_date: this.state.addItemEndDate,
     };
@@ -41,9 +43,9 @@ class Dashboard extends Component {
     this.setState({[e.target.name]: e.target.value});
   };
 
-  handleDropDown = (e, key, value) => {
-    this.setState({addItemFrequency: value});
-  };
+  handleDropDown = (name, event, key, value) => {
+    this.setState({[name]: value});
+  }
 
   handleStartDateChange = (e, date) => {
     this.setState({addItemStartDate: formatDate(date)});
@@ -76,14 +78,13 @@ class Dashboard extends Component {
   render() {
     return (
       <div className='dashboard-wrapper'>
-        <div>This is the dashboard page.</div>
         <CashflowTable cashflows={this.props.cashflows} addItemOpen={this.state.addItemDialogOpen} 
           handleOpen={this.handleOpen} handleClose={this.handleClose} handleChange={this.handleChange} 
           addItemFrequency={this.state.addItemFrequency} handleSave={this.handleSave} 
           handleDropDown={this.handleDropDown} handleStartDateChange={this.handleStartDateChange} 
           handleEndDateChange={this.handleEndDateChange} isSelected={this.isSelected} 
           handleRowSelection={this.handleRowSelection} noneSelected={this.noneSelected} 
-          onClickDelete={this.onClickDeleteCashflow} 
+          onClickDelete={this.onClickDeleteCashflow} addItemType={this.state.addItemType} 
         />
       </div>
     );

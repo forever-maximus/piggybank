@@ -12,6 +12,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import './CashflowTable.css';
 import AddItemDialog from './AddItemDialog';
 
+const greenText = {
+  color: '#30E043',
+}
+const redText = {
+  color: '#f7505a',
+}
 
 class CashflowTable extends Component {
   render() {
@@ -23,6 +29,7 @@ class CashflowTable extends Component {
             <TableRow>
               <TableHeaderColumn>Name</TableHeaderColumn>
               <TableHeaderColumn>Amount</TableHeaderColumn>
+              <TableHeaderColumn>Type</TableHeaderColumn>
               <TableHeaderColumn>Edit</TableHeaderColumn>
             </TableRow>
           </TableHeader>
@@ -31,6 +38,7 @@ class CashflowTable extends Component {
               <TableRow key={index} selected={this.props.isSelected(index)}>
                 <TableRowColumn>{row.name}</TableRowColumn>
                 <TableRowColumn>{row.amount}</TableRowColumn>
+                <TableRowColumn style={row.cashflow_type==='Expense'?redText:greenText}>{row.cashflow_type}</TableRowColumn>
                 <TableRowColumn><i className="fa fa-pencil fa-lg"></i></TableRowColumn>
               </TableRow>
             ))}
@@ -43,7 +51,8 @@ class CashflowTable extends Component {
                   handleChange={this.props.handleChange} addItemFrequency={this.props.addItemFrequency} 
                   handleSave={this.props.handleSave} handleDropDown={this.props.handleDropDown} 
                   handleStartDateChange={this.props.handleStartDateChange} 
-                  handleEndDateChange={this.props.handleEndDateChange} 
+                  handleEndDateChange={this.props.handleEndDateChange} addItemType={this.props.addItemType} 
+                  handleType={this.props.handleType} 
                 />
                 <RaisedButton className='table-button' label='Delete' secondary={true} 
                   disabled={this.props.noneSelected()} onTouchTap={this.props.onClickDelete} 

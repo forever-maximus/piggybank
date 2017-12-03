@@ -16,11 +16,12 @@ class EntryViewSet(viewsets.ModelViewSet):
     serializer_class = EntrySerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-    # def list(self, request):
-    #     user = self.request.user
-    #     queryset = Entry.objects.filter(owner=user)
-    #     serializer_class = EntrySerializer(queryset, many=True)
-    #     return Response(serializer_class.data)
+    def list(self, request):
+        # Only get items for the specific user
+        user = self.request.user
+        queryset = Entry.objects.filter(owner=user)
+        serializer_class = EntrySerializer(queryset, many=True)
+        return Response(serializer_class.data)
 
     def perform_create(self, serializer):
         """Sets the user profile to the logged in user."""

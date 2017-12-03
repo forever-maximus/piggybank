@@ -18,11 +18,19 @@ class Entry(models.Model):
         (YEARLY, 'Yearly'),
     )
 
+    INCOME = 'Income'
+    EXPENSE = 'Expense'
+    cashflow_types = (
+        (INCOME, 'Income'),
+        (EXPENSE, 'Expense'),
+    )
+
     name = models.CharField(max_length=200)
     amount = models.DecimalField(max_digits=11, decimal_places=2)
     start_date = models.DateField('start date')
     end_date = models.DateField('end date', null=True, blank=True)
     frequency = models.CharField(choices=frequency_choices, max_length=20)
+    cashflow_type = models.CharField(choices=cashflow_types, max_length=10)
     owner = models.ForeignKey('auth.User', related_name='entries', on_delete=models.CASCADE)
 
     def __str__(self):

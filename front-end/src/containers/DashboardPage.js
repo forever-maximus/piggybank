@@ -36,7 +36,7 @@ class DashboardPage extends Component {
 
   componentDidMount() {
     get_cashflows(this.props.authToken).then(responseData => {
-      this.setState({cashflowData: responseData.results});
+      this.setState({cashflowData: responseData});
     }).catch(errorData => {
       console.log(errorData);
     });

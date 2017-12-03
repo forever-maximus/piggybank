@@ -7,7 +7,7 @@ class EntrySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Entry
-        fields = ('id', 'name', 'amount', 'start_date', 'end_date', 'frequency', 'owner')
+        fields = ('id', 'name', 'amount', 'start_date', 'end_date', 'frequency', 'cashflow_type', 'owner')
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
