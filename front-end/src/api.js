@@ -25,10 +25,10 @@ export function login_request(userData) {
   });
 }
 
-export function get_cashflows(authToken) {
+export function get_model_data(authToken, endpoint) {
   let config = get_header(authToken);
   return new Promise((resolve, reject) => {
-    axios.get(api_address+'entries/', config)
+    axios.get(api_address+endpoint, config)
     .then(function (response) {
       resolve(response.data);
     })
@@ -63,3 +63,4 @@ export function delete_cashflow(authToken, id) {
     });
   });
 }
+

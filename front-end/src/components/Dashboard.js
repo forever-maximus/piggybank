@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CashflowTable from '../components/CashflowTable';
 import './Dashboard.css';
 import {formatDate} from '../utils/miscHelpers';
+import {getCategoryIdFromName} from '../utils/miscHelpers';
 
 class Dashboard extends Component {
   constructor (props) {
@@ -12,6 +13,7 @@ class Dashboard extends Component {
       addItemAmount: '',
       addItemFrequency: '',
       addItemType: '',
+      addItemCategory: '',
       addItemStartDate: '',
       addItemEndDate: '',
       selectedCashflows: [],
@@ -23,16 +25,23 @@ class Dashboard extends Component {
   };
 
   handleClose = () => {
-    this.setState({addItemDialogOpen: false, addItemFrequency: '', addItemType: ''});
+    this.setState({
+      addItemDialogOpen: false, 
+      addItemFrequency: '', 
+      addItemType: '',
+      addItemCategory: '',
+    });
   };
 
   handleSave = () => {
-    this.setState({addItemDialogOpen: false});
+    this.setState({addItemDialogOpen: false, addItemFrequency: '', addItemType: '', addItemCategory: ''});
+    const categoryId = getCategoryIdFromName(this.props.categories, this.state.addItemCategory);
     let data = {
       name: this.state.addItemName,
       amount: this.state.addItemAmount,
       frequency: this.state.addItemFrequency,
       cashflow_type: this.state.addItemType,
+      category: categoryId,
       start_date: this.state.addItemStartDate,
       end_date: this.state.addItemEndDate,
     };
@@ -85,6 +94,7 @@ class Dashboard extends Component {
           handleEndDateChange={this.handleEndDateChange} isSelected={this.isSelected} 
           handleRowSelection={this.handleRowSelection} noneSelected={this.noneSelected} 
           onClickDelete={this.onClickDeleteCashflow} addItemType={this.state.addItemType} 
+          categories={this.props.categories} addItemCategory={this.state.addItemCategory} 
         />
       </div>
     );

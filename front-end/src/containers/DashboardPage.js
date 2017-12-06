@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
-import {get_cashflows, add_cashflow, delete_cashflow} from '../api';
+import {get_model_data, add_cashflow, delete_cashflow} from '../api';
 import Dashboard from '../components/Dashboard';
 import NavController from './NavController';
+import {getCategoryNameFromId} from '../utils/miscHelpers';
 
 class DashboardPage extends Component {
   constructor (props) {
     super(props);
     this.state = {
       cashflowData: [],
+      categories: [],
     };
   }
 
   addCashflow = (data) => {
     add_cashflow(this.props.authToken, data).then(responseData => {
       let cashflows = this.state.cashflowData.slice();
+      responseData.category = getCategoryNameFromId(this.state.categories, responseData.category);
       cashflows.push(responseData);
       this.setState({cashflowData: cashflows});
     }).catch(errorData => {
@@ -34,12 +37,26 @@ class DashboardPage extends Component {
     });
   }
 
-  componentDidMount() {
-    get_cashflows(this.props.authToken).then(responseData => {
+  getCashflows = () => {
+    // This replaces foreign key reference to category table with the actual name.
+    // If you want the id of the category later you can match on the name.
+    get_model_data(this.props.authToken, 'entries').then(responseData => {
+      responseData.filter(row => row.category !== null).map(row => (
+        row.category = getCategoryNameFromId(this.state.categories, row.category)
+      ));
       this.setState({cashflowData: responseData});
     }).catch(errorData => {
       console.log(errorData);
     });
+  }
+
+  componentDidMount() {
+    get_model_data(this.props.authToken, 'categories').then(responseData => {
+      this.setState({categories: responseData}, this.getCashflows);
+    }).catch(errorData => {
+      console.log(errorData);
+    });
+    
   }
 
   render () {
@@ -47,7 +64,7 @@ class DashboardPage extends Component {
       <div>
         <NavController resetLoginToken={this.props.resetLoginToken} />
         <Dashboard cashflows={this.state.cashflowData} addCashflow={this.addCashflow} 
-        deleteCashflows={this.deleteCashflows} />
+        deleteCashflows={this.deleteCashflows} categories={this.state.categories} />
       </div>
     );
   }

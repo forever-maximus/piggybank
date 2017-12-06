@@ -1,0 +1,12 @@
+.form-wrapper {
+    display: flex;
+}
+
+.column-one {
+    padding: 0px 40px 0px 0px;
+    border-right: 1px solid #DDDDDD;
+}
+
+.column-two {
+    padding: 0px 0px 0px 40px;
+}

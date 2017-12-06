@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import DatePicker from 'material-ui/DatePicker';
+import './AddItemDialog.css';
 
 const dialogContainerStyle = {
   display: 'flex',
@@ -40,41 +41,57 @@ class AddItemDialog extends Component {
         contentStyle={dialogContainerStyle} 
         style={dialogStyle}
       >
-        <div>
-          <TextField name='addItemName' hintText='Name'
-            onChange={this.props.handleChange} floatingLabelText='Name' 
-          />
+        <div className='form-wrapper'>
+          <div className='column-one'>
+            <div>
+              <TextField name='addItemName' hintText='Name'
+                onChange={this.props.handleChange} floatingLabelText='Name' 
+              />
+            </div>
+            <div>
+              <TextField name='addItemAmount' hintText='Amount'
+                onChange={this.props.handleChange} floatingLabelText='Amount' 
+              />
+            </div>
+            <div>
+              <SelectField value={this.props.addItemType} 
+                onChange={this.props.handleDropDown.bind(null,'addItemType')} hintText='Type' 
+                floatingLabelText='Type' 
+              >
+                <MenuItem value={'Expense'} primaryText='Expense' />
+                <MenuItem value={'Income'} primaryText='Income' />
+              </SelectField>
+            </div>
+            <div>
+              <SelectField value={this.props.addItemCategory} 
+                hintText='Category' floatingLabelText='Category' 
+                onChange={this.props.handleDropDown.bind(null,'addItemCategory')}
+              >
+                {this.props.categories.map( (row, index) => (
+                  <MenuItem key={index} value={row.name} primaryText={row.name} />
+                ))}
+              </SelectField>
+            </div>
+          </div>
+          <div className='column-two'>
+            <div>
+              <SelectField value={this.props.addItemFrequency} 
+              onChange={this.props.handleDropDown.bind(null,'addItemFrequency')} hintText='Frequency' 
+              floatingLabelText='Frequency' 
+              >
+                <MenuItem value={'One-Off'} primaryText='One-Off' />
+                <MenuItem value={'Weekly'} primaryText='Weekly' />
+                <MenuItem value={'Fortnightly'} primaryText='Fortnightly' />
+                <MenuItem value={'Monthly'} primaryText='Monthly' />
+                <MenuItem value={'Quarterly'} primaryText='Quarterly' />
+                <MenuItem value={'Half-Yearly'} primaryText='Half-Yearly' />
+                <MenuItem value={'Yearly'} primaryText='Yearly' />
+              </SelectField>
+            </div>
+            <DatePicker hintText="Start Date" floatingLabelText='Start Date' onChange={this.props.handleStartDateChange}/>
+            <DatePicker hintText="End Date" floatingLabelText='End Date' onChange={this.props.handleEndDateChange}/>
+          </div>
         </div>
-        <div>
-          <TextField name='addItemAmount' hintText='Amount'
-            onChange={this.props.handleChange} floatingLabelText='Amount' 
-          />
-        </div>
-        <div>
-          <SelectField value={this.props.addItemType} 
-            onChange={this.props.handleDropDown.bind(null,'addItemType')} hintText='Type' 
-            floatingLabelText='Type' 
-          >
-            <MenuItem value={'Expense'} primaryText='Expense' />
-            <MenuItem value={'Income'} primaryText='Income' />
-          </SelectField>
-        </div>
-        <div>
-          <SelectField value={this.props.addItemFrequency} 
-           onChange={this.props.handleDropDown.bind(null,'addItemFrequency')} hintText='Frequency' 
-           floatingLabelText='Frequency' 
-          >
-            <MenuItem value={'One-Off'} primaryText='One-Off' />
-            <MenuItem value={'Weekly'} primaryText='Weekly' />
-            <MenuItem value={'Fortnightly'} primaryText='Fortnightly' />
-            <MenuItem value={'Monthly'} primaryText='Monthly' />
-            <MenuItem value={'Quarterly'} primaryText='Quarterly' />
-            <MenuItem value={'Half-Yearly'} primaryText='Half-Yearly' />
-            <MenuItem value={'Yearly'} primaryText='Yearly' />
-          </SelectField>
-        </div>
-        <DatePicker hintText="Start Date" floatingLabelText='Start Date' onChange={this.props.handleStartDateChange}/>
-        <DatePicker hintText="End Date" floatingLabelText='End Date' onChange={this.props.handleEndDateChange}/>
       </Dialog>
     );
   }

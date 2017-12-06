@@ -7,6 +7,7 @@ from entries import views
 router = DefaultRouter()
 router.register(r'entries', views.EntryViewSet)
 router.register(r'User', views.UserViewSet)
+router.register(r'categories', views.CategoryViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

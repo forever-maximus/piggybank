@@ -15,3 +15,11 @@
 .table-button {
     margin: 0px 10px;
 }
+
+.align-right {
+    text-align: right !important;
+}
+
+.margin-left {
+    margin-left: auto !important;
+}
