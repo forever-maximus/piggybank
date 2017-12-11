@@ -10,6 +10,7 @@ class DashboardPage extends Component {
     this.state = {
       cashflowData: [],
       categories: [],
+      categoriesAggregated: [],
     };
   }
 
@@ -18,7 +19,7 @@ class DashboardPage extends Component {
       let cashflows = this.state.cashflowData.slice();
       responseData.category = getCategoryNameFromId(this.state.categories, responseData.category);
       cashflows.push(responseData);
-      this.setState({cashflowData: cashflows});
+      this.setState({cashflowData: cashflows}, this.calculateCategoryTotals);
     }).catch(errorData => {
       console.log(errorData);
     });
@@ -31,7 +32,7 @@ class DashboardPage extends Component {
     delete_cashflow(this.props.authToken, this.state.cashflowData[rowNum].id).then(responseData => {
       let cashflows = this.state.cashflowData.slice();
       cashflows.splice(rowNum, 1);
-      this.setState({cashflowData: cashflows});
+      this.setState({cashflowData: cashflows}, this.calculateCategoryTotals);
     }).catch(errorData => {
       console.log(errorData);
     });
@@ -44,10 +45,26 @@ class DashboardPage extends Component {
       responseData.filter(row => row.category !== null).map(row => (
         row.category = getCategoryNameFromId(this.state.categories, row.category)
       ));
-      this.setState({cashflowData: responseData});
+      this.setState({cashflowData: responseData}, this.calculateCategoryTotals);
     }).catch(errorData => {
       console.log(errorData);
     });
+  }
+
+  calculateCategoryTotals = () => {
+    let index = 0;
+    let totaledCategories = this.state.cashflowData
+      .filter(cashflow => cashflow.category !== null && cashflow.cashflow_type === 'Expense')
+      .reduce( (accumulated, current) => {
+        index = accumulated.findIndex(obj => obj.category === current.category)
+        if (index !== -1) {
+          accumulated[index].amount += parseFloat(current.amount);
+        } else {
+          accumulated.push({category: current.category, amount: parseFloat(current.amount)});
+        }
+        return accumulated;
+    } ,[]);
+    this.setState({categoriesAggregated: totaledCategories});
   }
 
   componentDidMount() {
@@ -56,7 +73,6 @@ class DashboardPage extends Component {
     }).catch(errorData => {
       console.log(errorData);
     });
-    
   }
 
   render () {
@@ -64,7 +80,9 @@ class DashboardPage extends Component {
       <div>
         <NavController resetLoginToken={this.props.resetLoginToken} />
         <Dashboard cashflows={this.state.cashflowData} addCashflow={this.addCashflow} 
-        deleteCashflows={this.deleteCashflows} categories={this.state.categories} />
+          deleteCashflows={this.deleteCashflows} categories={this.state.categories} 
+          categoriesAggregated={this.state.categoriesAggregated}  
+        />
       </div>
     );
   }

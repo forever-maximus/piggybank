@@ -3,6 +3,7 @@ import CashflowTable from '../components/CashflowTable';
 import './Dashboard.css';
 import {formatDate} from '../utils/miscHelpers';
 import {getCategoryIdFromName} from '../utils/miscHelpers';
+import ExpenseGraph from '../components/ExpenseGraph';
 
 class Dashboard extends Component {
   constructor (props) {
@@ -87,15 +88,21 @@ class Dashboard extends Component {
   render() {
     return (
       <div className='dashboard-wrapper'>
-        <CashflowTable cashflows={this.props.cashflows} addItemOpen={this.state.addItemDialogOpen} 
-          handleOpen={this.handleOpen} handleClose={this.handleClose} handleChange={this.handleChange} 
-          addItemFrequency={this.state.addItemFrequency} handleSave={this.handleSave} 
-          handleDropDown={this.handleDropDown} handleStartDateChange={this.handleStartDateChange} 
-          handleEndDateChange={this.handleEndDateChange} isSelected={this.isSelected} 
-          handleRowSelection={this.handleRowSelection} noneSelected={this.noneSelected} 
-          onClickDelete={this.onClickDeleteCashflow} addItemType={this.state.addItemType} 
-          categories={this.props.categories} addItemCategory={this.state.addItemCategory} 
-        />
+        <div className='cashflows-wrapper'>
+          <CashflowTable cashflows={this.props.cashflows} addItemOpen={this.state.addItemDialogOpen} 
+            handleOpen={this.handleOpen} handleClose={this.handleClose} handleChange={this.handleChange} 
+            addItemFrequency={this.state.addItemFrequency} handleSave={this.handleSave} 
+            handleDropDown={this.handleDropDown} handleStartDateChange={this.handleStartDateChange} 
+            handleEndDateChange={this.handleEndDateChange} isSelected={this.isSelected} 
+            handleRowSelection={this.handleRowSelection} noneSelected={this.noneSelected} 
+            onClickDelete={this.onClickDeleteCashflow} addItemType={this.state.addItemType} 
+            categories={this.props.categories} addItemCategory={this.state.addItemCategory} 
+          />
+        </div>
+        <div className='metrics-wrapper'>
+          <div></div>
+          <ExpenseGraph cashflows={this.props.cashflows} categoriesAggregated={this.props.categoriesAggregated} />
+        </div>
       </div>
     );
   }
