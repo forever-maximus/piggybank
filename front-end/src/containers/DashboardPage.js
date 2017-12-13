@@ -11,6 +11,7 @@ class DashboardPage extends Component {
       cashflowData: [],
       categories: [],
       categoriesAggregated: [],
+      netCashflow: 0,
     };
   }
 
@@ -19,7 +20,7 @@ class DashboardPage extends Component {
       let cashflows = this.state.cashflowData.slice();
       responseData.category = getCategoryNameFromId(this.state.categories, responseData.category);
       cashflows.push(responseData);
-      this.setState({cashflowData: cashflows}, this.calculateCategoryTotals);
+      this.setState({cashflowData: cashflows}, this.stateCalculations);
     }).catch(errorData => {
       console.log(errorData);
     });
@@ -32,7 +33,7 @@ class DashboardPage extends Component {
     delete_cashflow(this.props.authToken, this.state.cashflowData[rowNum].id).then(responseData => {
       let cashflows = this.state.cashflowData.slice();
       cashflows.splice(rowNum, 1);
-      this.setState({cashflowData: cashflows}, this.calculateCategoryTotals);
+      this.setState({cashflowData: cashflows}, this.stateCalculations);
     }).catch(errorData => {
       console.log(errorData);
     });
@@ -45,10 +46,27 @@ class DashboardPage extends Component {
       responseData.filter(row => row.category !== null).map(row => (
         row.category = getCategoryNameFromId(this.state.categories, row.category)
       ));
-      this.setState({cashflowData: responseData}, this.calculateCategoryTotals);
+      this.setState({cashflowData: responseData}, this.stateCalculations);
     }).catch(errorData => {
       console.log(errorData);
     });
+  }
+
+  stateCalculations = () => {
+    this.calculateCategoryTotals();
+    this.calculateNetCashflow();
+  }
+
+  calculateNetCashflow = () => {
+    let totaledCashflows = this.state.cashflowData.reduce((accumulated, current) => {
+      if (current.cashflow_type === 'Expense') {
+        accumulated -= parseFloat(current.amount);
+      } else {
+        accumulated += parseFloat(current.amount);
+      }
+      return accumulated;
+    }, 0);
+    this.setState({netCashflow: totaledCashflows});
   }
 
   calculateCategoryTotals = () => {
@@ -81,7 +99,7 @@ class DashboardPage extends Component {
         <NavController resetLoginToken={this.props.resetLoginToken} />
         <Dashboard cashflows={this.state.cashflowData} addCashflow={this.addCashflow} 
           deleteCashflows={this.deleteCashflows} categories={this.state.categories} 
-          categoriesAggregated={this.state.categoriesAggregated}  
+          categoriesAggregated={this.state.categoriesAggregated} netCashflow={this.state.netCashflow}
         />
       </div>
     );

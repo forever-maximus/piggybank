@@ -49,7 +49,11 @@ class CashflowTable extends Component {
                   {row.cashflow_type}
                 </TableRowColumn>
                 <TableRowColumn>
-                  <Chip className='margin-left' labelStyle={chipLabelStyle}>{row.category}</Chip>
+                  <Chip className='margin-left' 
+                    backgroundColor={this.props.categories.find(obj => obj.name === row.category).colour}
+                    labelStyle={chipLabelStyle}>
+                      {row.category}
+                  </Chip>
                 </TableRowColumn>
                 <TableRowColumn className='align-right'><i className="fa fa-pencil fa-lg"></i></TableRowColumn>
               </TableRow>

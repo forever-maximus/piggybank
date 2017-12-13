@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import {ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell} from 'recharts';
 import './ExpenseGraph.css';
 
 
@@ -15,7 +15,13 @@ class ExpenseGraph extends Component {
             <CartesianGrid strokeDasharray="4" vertical={false} />
             <Tooltip/>
             <Legend />
-            <Bar dataKey='amount' fill="#C53458" />
+            <Bar dataKey='amount'>
+              {
+                this.props.categoriesAggregated.map((entry, index) => (
+                  <Cell fill={this.props.categories.find(obj => obj.name === entry.category).colour} key={index} />
+                ))
+              }
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>

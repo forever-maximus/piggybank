@@ -12,4 +12,6 @@
 .metrics-wrapper {
     width: 35%;
     margin: 20px 0px;
+    display: flex;
+    flex-direction: column;
 }

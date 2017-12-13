@@ -4,6 +4,7 @@ import './Dashboard.css';
 import {formatDate} from '../utils/miscHelpers';
 import {getCategoryIdFromName} from '../utils/miscHelpers';
 import ExpenseGraph from '../components/ExpenseGraph';
+import CashflowSummary from '../components/CashflowSummary';
 
 class Dashboard extends Component {
   constructor (props) {
@@ -100,8 +101,10 @@ class Dashboard extends Component {
           />
         </div>
         <div className='metrics-wrapper'>
-          <div></div>
-          <ExpenseGraph cashflows={this.props.cashflows} categoriesAggregated={this.props.categoriesAggregated} />
+          <CashflowSummary netCashflow={this.props.netCashflow} />
+          <ExpenseGraph cashflows={this.props.cashflows} categoriesAggregated={this.props.categoriesAggregated}
+            categories={this.props.categories}
+          />
         </div>
       </div>
     );

@@ -1,0 +1,10 @@
+.summary-container {
+    padding: 20px;
+    background-color: #FFFFFF;
+    border-radius: 7px;
+    margin-bottom: 20px;
+}
+
+.summary-container h3 {
+    margin: 0px;
+}
