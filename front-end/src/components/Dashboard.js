@@ -19,6 +19,10 @@ class Dashboard extends Component {
       addItemStartDate: '',
       addItemEndDate: '',
       selectedCashflows: [],
+      validationErrors: {
+        nameError: '',
+        amountError: '',
+      },
     };
   }
 
@@ -27,31 +31,73 @@ class Dashboard extends Component {
   };
 
   handleClose = () => {
+    this.clearDialogStateFields();
+  };
+
+  clearDialogStateFields = () => {
     this.setState({
       addItemDialogOpen: false, 
       addItemFrequency: '', 
-      addItemType: '',
+      addItemType: '', 
       addItemCategory: '',
+      addItemName: '',
+      addItemAmount: '',
+      addItemEndDate: '',
+      addItemStartDate: '',
+      validationErrors: {
+        nameError: '',
+        amountError: '',
+      },
     });
+  }
+
+  // Check empty inputs on required fields and type mismatches
+  validateInputs = () => {
+    let nameValidation = '', amountValidation = '';
+    if (this.state.addItemName === '') {
+      nameValidation = 'Name Required';
+    }
+    if (this.state.addItemAmount === '') {
+      amountValidation = 'Amount Required';
+    }
+    if (isNaN(parseFloat(this.state.addItemAmount)) && amountValidation === '') {
+      amountValidation = 'Must be a number';
+    }
+    if (nameValidation !== '' || amountValidation !== '') {
+      this.setState({validationErrors: {
+        nameError: nameValidation, 
+        amountError: amountValidation,
+      }})
+      return false;
+    }
+    return true;
   };
 
   handleSave = () => {
-    this.setState({addItemDialogOpen: false, addItemFrequency: '', addItemType: '', addItemCategory: ''});
-    const categoryId = getCategoryIdFromName(this.props.categories, this.state.addItemCategory);
-    let data = {
-      name: this.state.addItemName,
-      amount: this.state.addItemAmount,
-      frequency: this.state.addItemFrequency,
-      cashflow_type: this.state.addItemType,
-      category: categoryId,
-      start_date: this.state.addItemStartDate,
-      end_date: this.state.addItemEndDate,
-    };
-    this.props.addCashflow(data);
+    if (this.validateInputs()) {
+      const categoryId = getCategoryIdFromName(this.props.categories, this.state.addItemCategory);
+      let data = {
+        name: this.state.addItemName,
+        amount: this.state.addItemAmount,
+        frequency: this.state.addItemFrequency,
+        cashflow_type: this.state.addItemType,
+        category: categoryId,
+        start_date: this.state.addItemStartDate,
+        end_date: this.state.addItemEndDate,
+      };
+      this.props.addCashflow(data);
+      this.clearDialogStateFields();
+    }
   };
 
   handleChange = (e) => {
     this.setState({[e.target.name]: e.target.value});
+    if (e.target.name === 'addItemName' && this.state.validationErrors.nameError !== '') {
+      this.setState({validationErrors: {...this.state.validationErrors, nameError: ''}});
+    }
+    if (e.target.name === 'addItemAmount' && this.state.validationErrors.amountError !== '') {
+      this.setState({validationErrors: {...this.state.validationErrors, amountError: ''}});
+    }
   };
 
   handleDropDown = (name, event, key, value) => {
@@ -98,6 +144,7 @@ class Dashboard extends Component {
             handleRowSelection={this.handleRowSelection} noneSelected={this.noneSelected} 
             onClickDelete={this.onClickDeleteCashflow} addItemType={this.state.addItemType} 
             categories={this.props.categories} addItemCategory={this.state.addItemCategory} 
+            validationErrors={this.state.validationErrors} 
           />
         </div>
         <div className='metrics-wrapper'>

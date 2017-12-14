@@ -48,17 +48,24 @@ class App extends Component {
     return (
       this.state.loginToken === 'unchecked'
       ? <div>Checking</div>
-      : <div style={containerStyle}>
+      : <div style={styles.containerStyle}>
         <Route path='/login' render={()=><LoginPage setLoginToken={this.setLoginToken}/>} />
-        <PrivateRoute exact path='/' component={DashboardPage} authToken={this.state.loginToken} 
-          resetLoginToken={this.resetLoginToken} />
+        <div style={styles.containerStyle}>
+          <PrivateRoute exact path='/' component={DashboardPage} authToken={this.state.loginToken} 
+            resetLoginToken={this.resetLoginToken} />
+        </div>
       </div>
     );
   }
 }
 
-const containerStyle = {
-  height: '100%',
+const styles = {
+  containerStyle: {
+    height: '100%',
+  },
+  // authenticatedStyle: {
+  //   marginTop: '56px',
+  // },
 };
 
 export default App;

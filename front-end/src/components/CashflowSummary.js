@@ -6,7 +6,9 @@ class CashflowSummary extends Component {
     return (
       <div className='summary-container'>
         <h3>Net Position:&nbsp;
-          <span className=''>{this.props.netCashflow}</span>
+          <span className={this.props.netCashflow < 0 ? 'red-text' : 'green-text'}>
+            {this.props.netCashflow}
+          </span>
         </h3>
       </div>
     )

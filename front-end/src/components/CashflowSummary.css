@@ -8,3 +8,11 @@
 .summary-container h3 {
     margin: 0px;
 }
+
+.green-text {
+    color: #30E043;
+}
+
+.red-text {
+    color: #f7505a;
+}

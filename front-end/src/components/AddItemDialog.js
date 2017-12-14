@@ -44,12 +44,12 @@ class AddItemDialog extends Component {
         <div className='form-wrapper'>
           <div className='column-one'>
             <div>
-              <TextField name='addItemName' hintText='Name'
+              <TextField name='addItemName' hintText='Name' errorText={this.props.validationErrors.nameError} 
                 onChange={this.props.handleChange} floatingLabelText='Name' 
               />
             </div>
             <div>
-              <TextField name='addItemAmount' hintText='Amount'
+              <TextField name='addItemAmount' hintText='Amount' errorText={this.props.validationErrors.amountError}
                 onChange={this.props.handleChange} floatingLabelText='Amount' 
               />
             </div>

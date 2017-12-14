@@ -21,11 +21,17 @@ class NavController extends Component {
 
   render() {
     return (
-      <div>
+      <div style={navBarStyle}>
         <NavBar handleLogout={this.handleLogout} expanded={this.state.expanded} toggleExpand={this.toggleExpand} />
       </div>
     );
   }
+}
+
+const navBarStyle = {
+  position: 'sticky',
+  top: '0px',
+  zIndex: '9999',
 }
 
 export default NavController;

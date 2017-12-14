@@ -69,7 +69,7 @@ class CashflowTable extends Component {
                   handleStartDateChange={this.props.handleStartDateChange} 
                   handleEndDateChange={this.props.handleEndDateChange} addItemType={this.props.addItemType} 
                   handleType={this.props.handleType} categories={this.props.categories} 
-                  addItemCategory={this.props.addItemCategory} 
+                  addItemCategory={this.props.addItemCategory} validationErrors={this.props.validationErrors} 
                 />
                 <RaisedButton className='table-button' label='Delete' secondary={true} 
                   disabled={this.props.noneSelected()} onTouchTap={this.props.onClickDelete} 
