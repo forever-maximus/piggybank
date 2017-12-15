@@ -22,6 +22,10 @@ class Dashboard extends Component {
       validationErrors: {
         nameError: '',
         amountError: '',
+        typeError: '',
+        categoryError: '',
+        frequencyError: '',
+        startDateError: '',
       },
     };
   }
@@ -47,26 +51,48 @@ class Dashboard extends Component {
       validationErrors: {
         nameError: '',
         amountError: '',
+        typeError: '',
+        categoryError: '',
+        frequencyError: '',
+        startDateError: '',
       },
     });
   }
 
   // Check empty inputs on required fields and type mismatches
   validateInputs = () => {
-    let nameValidation = '', amountValidation = '';
+    let nameValidation = '', amountValidation = '', typeValidation = '', categoryValidation = '', 
+      frequencyValidation = '', startDateValidation = '';
     if (this.state.addItemName === '') {
-      nameValidation = 'Name Required';
+      nameValidation = 'Name required';
     }
     if (this.state.addItemAmount === '') {
-      amountValidation = 'Amount Required';
+      amountValidation = 'Amount required';
     }
     if (isNaN(parseFloat(this.state.addItemAmount)) && amountValidation === '') {
       amountValidation = 'Must be a number';
     }
-    if (nameValidation !== '' || amountValidation !== '') {
+    if (this.state.addItemType === '') {
+      typeValidation = 'Cashflow type required'
+    }
+    if (this.state.addItemCategory === '') {
+      categoryValidation = 'Category is required'
+    }
+    if (this.state.addItemFrequency === '') {
+      frequencyValidation = 'Frequency is required'
+    }
+    if (this.state.addItemStartDate === '') {
+      startDateValidation = 'Start date is required'
+    }
+    if (nameValidation !== '' || amountValidation !== '' || typeValidation !== '' || categoryValidation !== '' ||
+        frequencyValidation !== '' || startDateValidation !== '') {
       this.setState({validationErrors: {
         nameError: nameValidation, 
         amountError: amountValidation,
+        typeError: typeValidation,
+        categoryError: categoryValidation,
+        frequencyError: frequencyValidation,
+        startDateError: startDateValidation,
       }})
       return false;
     }
@@ -102,10 +128,22 @@ class Dashboard extends Component {
 
   handleDropDown = (name, event, key, value) => {
     this.setState({[name]: value});
+    if (name === 'addItemType' && this.state.validationErrors.typeError !== '') {
+      this.setState({validationErrors: {...this.state.validationErrors, typeError: ''}});
+    }
+    else if (name === 'addItemCategory' && this.state.validationErrors.categoryError !== '') {
+      this.setState({validationErrors: {...this.state.validationErrors, categoryError: ''}});
+    }
+    else if (name === 'addItemFrequency' && this.state.validationErrors.frequencyError !== '') {
+      this.setState({validationErrors: {...this.state.validationErrors, frequencyError: ''}});
+    }
   }
 
   handleStartDateChange = (e, date) => {
     this.setState({addItemStartDate: formatDate(date)});
+    if (this.state.validationErrors.startDateError !== '') {
+      this.setState({validationErrors: {...this.state.validationErrors, startDateError: ''}});
+    }
   };
 
   handleEndDateChange = (e, date) => {

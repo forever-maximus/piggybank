@@ -56,7 +56,7 @@ class AddItemDialog extends Component {
             <div>
               <SelectField value={this.props.addItemType} 
                 onChange={this.props.handleDropDown.bind(null,'addItemType')} hintText='Type' 
-                floatingLabelText='Type' 
+                floatingLabelText='Type' errorText={this.props.validationErrors.typeError}
               >
                 <MenuItem value={'Expense'} primaryText='Expense' />
                 <MenuItem value={'Income'} primaryText='Income' />
@@ -64,7 +64,7 @@ class AddItemDialog extends Component {
             </div>
             <div>
               <SelectField value={this.props.addItemCategory} 
-                hintText='Category' floatingLabelText='Category' 
+                hintText='Category' floatingLabelText='Category' errorText={this.props.validationErrors.categoryError}
                 onChange={this.props.handleDropDown.bind(null,'addItemCategory')}
               >
                 {this.props.categories.map( (row, index) => (
@@ -77,7 +77,7 @@ class AddItemDialog extends Component {
             <div>
               <SelectField value={this.props.addItemFrequency} 
               onChange={this.props.handleDropDown.bind(null,'addItemFrequency')} hintText='Frequency' 
-              floatingLabelText='Frequency' 
+              floatingLabelText='Frequency' errorText={this.props.validationErrors.frequencyError}
               >
                 <MenuItem value={'One-Off'} primaryText='One-Off' />
                 <MenuItem value={'Weekly'} primaryText='Weekly' />
@@ -88,8 +88,12 @@ class AddItemDialog extends Component {
                 <MenuItem value={'Yearly'} primaryText='Yearly' />
               </SelectField>
             </div>
-            <DatePicker hintText="Start Date" floatingLabelText='Start Date' onChange={this.props.handleStartDateChange}/>
-            <DatePicker hintText="End Date" floatingLabelText='End Date' onChange={this.props.handleEndDateChange}/>
+            <DatePicker hintText="Start Date" floatingLabelText='Start Date' 
+              onChange={this.props.handleStartDateChange} errorText={this.props.validationErrors.startDateError}
+            />
+            <DatePicker hintText="End Date (optional)" floatingLabelText='End Date (optional)' 
+              onChange={this.props.handleEndDateChange}
+            />
           </div>
         </div>
       </Dialog>
