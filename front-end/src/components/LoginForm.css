@@ -26,3 +26,8 @@
 .login-icon {
     margin-right: 15px;
 }
+
+.login-error {
+    color: #f7505a;
+    margin: 10px 0px;
+}

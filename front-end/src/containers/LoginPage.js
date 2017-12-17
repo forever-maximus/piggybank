@@ -11,6 +11,7 @@ class LoginPage extends Component {
       username: '',
       password: '',
       doRedirect: false,
+      loginError: '',
     };
   }
 
@@ -23,6 +24,7 @@ class LoginPage extends Component {
       this.props.setLoginToken(responseData.token);
       this.setState({doRedirect: true});
     }).catch(errorData => {
+      this.setState({loginError: 'Invalid username or password'});
       console.log('Error - Invalid login details!');
     });
   };
@@ -46,6 +48,7 @@ class LoginPage extends Component {
         <LoginForm 
           username={this.state.username} 
           password={this.state.password} 
+          loginError={this.state.loginError} 
           onChangeMethod={this.handleChange}
           onClickMethod={this.login} 
           onKeyPressMethod={this.handleKeyPress}

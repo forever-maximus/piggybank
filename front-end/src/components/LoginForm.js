@@ -9,6 +9,7 @@ class LoginForm extends Component {
       <div className='login-form-wrapper'>
         <h1>Piggy Bank</h1>
         <div className='login-form'>
+          <div className='login-error'>{this.props.loginError}</div>
           <div>
             <i className="fa fa-user fa-lg login-icon" aria-hidden="true"></i>
             <TextField 
