@@ -37,7 +37,7 @@ class CashflowTable extends Component {
               <TableHeaderColumn className='align-right'>Amount</TableHeaderColumn>
               <TableHeaderColumn className='align-right'>Type</TableHeaderColumn>
               <TableHeaderColumn className='align-right'>Category</TableHeaderColumn>
-              <TableHeaderColumn className='align-right'>Edit</TableHeaderColumn>
+              <TableHeaderColumn className='align-right edit-column'>Edit</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody showRowHover={true}>
@@ -55,7 +55,9 @@ class CashflowTable extends Component {
                       {row.category}
                   </Chip>
                 </TableRowColumn>
-                <TableRowColumn className='align-right'><i className="fa fa-pencil fa-lg"></i></TableRowColumn>
+                <TableRowColumn className='align-right edit-column'>
+                  <i className="fa fa-pencil fa-lg"></i>
+                </TableRowColumn>
               </TableRow>
             ))}
           </TableBody>
