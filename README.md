@@ -1,4 +1,4 @@
-# Piggy Bank
+# Piggy Bank - NO LONGER ACTIVE - ONLY FOR REFERENCE
 A web application for managing personal finances.
 
 https://piggybank.cf
